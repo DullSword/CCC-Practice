@@ -116,30 +116,30 @@ export class MapManager extends Component {
     }
 
     infect(hostRoom: Room) {
-        let freshinfectedRooms = this.getFreshinfectedRooms(hostRoom);
+        let queue = [];
+        queue.push(hostRoom);
 
-        if (freshinfectedRooms.length <= 0) {
-            return;
-        }
+        while (queue.length) {
+            const infectedRoom = queue.shift();
+            const freshinfectedRooms = this.getFreshinfectedRooms(infectedRoom);
 
-        for (let room of freshinfectedRooms) {
-            this.infect(room);
+            freshinfectedRooms.forEach(room => queue.push(room));
         }
     }
 
     getFreshinfectedRooms(hostRoom: Room): Room[] {
-        let nearRooms = this.getNearRooms(hostRoom);
+        const nearRooms = this.getNearRooms(hostRoom);
         let freshinfectedRooms: Room[] = [];
         let spreadMask = 0;     //0000
 
         for (let dir in nearRooms) {
-            let room = nearRooms[dir];
-            let infectProbability = ((this._roomSize - this._infectedRooms.size) / (this._roomSize - this.minRoomSize)) ** 10;
+            const room = nearRooms[dir];
+            const infectProbability = ((this._roomSize - this._infectedRooms.size) / (this._roomSize - this.minRoomSize)) ** 10;
 
             if (room && Math.random() <= infectProbability) {
                 spreadMask |= SpreadDirToMask[dir];
 
-                let idx = this.getRoomIdx(room);
+                const idx = this.getRoomIdx(room);
                 if (this._infectedRooms.has(idx)) {
                     let _spreadMask = this._infectedRooms.get(idx);
                     _spreadMask |= RSpreadDirToMask[dir];
@@ -151,7 +151,7 @@ export class MapManager extends Component {
             }
         }
 
-        let idx = this.getRoomIdx(hostRoom);
+        const idx = this.getRoomIdx(hostRoom);
 
         if (this._infectedRooms.has(idx)) {
             let _spreadMask = this._infectedRooms.get(idx);
@@ -165,10 +165,10 @@ export class MapManager extends Component {
     }
 
     getNearRooms(currentRoom: Room): NearRooms {
-        let top = this.getDirectionRoom(currentRoom, DirectionOffset.top);
-        let down = this.getDirectionRoom(currentRoom, DirectionOffset.down);
-        let left = this.getDirectionRoom(currentRoom, DirectionOffset.left);
-        let right = this.getDirectionRoom(currentRoom, DirectionOffset.right);
+        const top = this.getDirectionRoom(currentRoom, DirectionOffset.top);
+        const down = this.getDirectionRoom(currentRoom, DirectionOffset.down);
+        const left = this.getDirectionRoom(currentRoom, DirectionOffset.left);
+        const right = this.getDirectionRoom(currentRoom, DirectionOffset.right);
 
         let ret: NearRooms = {
             top: null,
@@ -185,19 +185,19 @@ export class MapManager extends Component {
     }
 
     getDirectionRoom(currentRoom: Room, directionOffset: Location): Room {
-        let { row: currentRoomRow, column: currentRoomColumn } = currentRoom;
-        let { row: offsetRow, column: offsetColumn } = directionOffset;
+        const { row: currentRoomRow, column: currentRoomColumn } = currentRoom;
+        const { row: offsetRow, column: offsetColumn } = directionOffset;
 
         return { row: currentRoomRow + offsetRow, column: currentRoomColumn + offsetColumn };
     }
 
     isRoomValid(room: Room): boolean {
-        let { row, column } = room;
+        const { row, column } = room;
         return (row >= 0 && row < this.height && column >= 0 && column < this.width);
     }
 
     getRoomIdx(room: Room): number {
-        let { row, column } = room;
+        const { row, column } = room;
         return this.locationToIdx(row, column);
     }
 

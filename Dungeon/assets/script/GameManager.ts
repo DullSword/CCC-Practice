@@ -1,5 +1,5 @@
 
-import { _decorator, Component } from 'cc';
+import { _decorator, Component, PhysicsSystem2D, EPhysics2DDrawFlags } from 'cc';
 import { MapManager } from './MapManager';
 import { DialogManager } from './DialogManager';
 const { ccclass, property } = _decorator;
