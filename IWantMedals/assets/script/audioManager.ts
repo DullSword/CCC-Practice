@@ -24,8 +24,10 @@ export class audioManager extends Component {
     @property(SpriteFrame)
     protected audioOff: SpriteFrame | null = null;
 
-    @property(AudioClip)
-    protected background: AudioClip | null = null;
+    @property({ group: { name: 'Background' }, type: AudioClip })
+    protected backgroundClip: AudioClip | null = null;
+    @property({ group: { name: 'Background' } })
+    protected backgroundVolume = 1;
 
     protected audioSource: AudioSource | null = null;
 
@@ -37,9 +39,9 @@ export class audioManager extends Component {
     }
 
     public playMusic() {
-        this.audioSource.clip = this.background;
+        this.audioSource.clip = this.backgroundClip;
         this.audioSource.loop = true;
-        this.audioSource.volume = 1;
+        this.audioSource.volume = this.backgroundVolume;
         this.audioSource.play();
     }
 

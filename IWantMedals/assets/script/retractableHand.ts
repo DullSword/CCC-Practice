@@ -24,11 +24,13 @@ interface State {
 
 class RotateState implements State {
     protected retractableHand: retractableHand | null = null;
+    protected rotateAmplitude = 0;
     protected rotateSpeed = 0;
     protected rotateDirection = 1;
 
     enter(retractableHand: retractableHand): void {
         this.retractableHand = retractableHand;
+        this.rotateAmplitude = retractableHand.rotateAmplitude;
         this.rotateSpeed = retractableHand.rotateSpeed;
         this.rotateDirection = retractableHand.rotateDirection;
     }
@@ -39,9 +41,9 @@ class RotateState implements State {
         return null;
     }
     update(deltaTime: number): void {
-        if (Math.abs(this.retractableHand.node.angle) >= 70) {
+        if (Math.abs(this.retractableHand.node.angle) >= this.rotateAmplitude) {
             this.rotateDirection *= -1;
-            this.retractableHand.node.angle = Math.sign(this.retractableHand.node.angle) * 70;    //避免angle+=speed*deltaTime后仍大于取值范围
+            this.retractableHand.node.angle = Math.sign(this.retractableHand.node.angle) * this.rotateAmplitude;    //避免angle+=speed*deltaTime后仍大于取值范围
         }
 
         this.retractableHand.node.angle += this.rotateSpeed * this.rotateDirection * deltaTime;
@@ -132,6 +134,8 @@ class RetractState implements State {
 @ccclass('retractableHand')
 export class retractableHand extends Component {
 
+    @property({ group: { name: 'Rotate', id: '1' } })
+    public rotateAmplitude = 70;
     @property({ group: { name: 'Rotate', id: '1' } })
     public rotateSpeed = 60;
 

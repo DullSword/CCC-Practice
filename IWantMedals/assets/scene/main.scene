@@ -824,6 +824,7 @@
     },
     "_enabled": true,
     "__prefab": null,
+    "rotateAmplitude": 70,
     "rotateSpeed": 60,
     "extendSpeed": 100,
     "extendMaxLength": 600,
@@ -1362,10 +1363,11 @@
       "__uuid__": "24ebfc81-902d-43b8-a10d-95f8231718cb@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
-    "background": {
+    "backgroundClip": {
       "__uuid__": "a169bc2b-cd54-4955-a33a-0927986efb67",
       "__expectedType__": "cc.AudioClip"
     },
+    "backgroundVolume": 0.3,
     "_id": "f43sBdcmdBfIXiYcebtm+l"
   },
   {
