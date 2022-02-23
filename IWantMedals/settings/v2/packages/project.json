@@ -1,0 +1,25 @@
+{
+  "physics": {
+    "collisionGroups": [
+      {
+        "index": 1,
+        "name": "HOOK"
+      },
+      {
+        "index": 2,
+        "name": "ITEM"
+      }
+    ],
+    "collisionMatrix": {
+      "0": 1,
+      "1": 4,
+      "2": 2
+    }
+  },
+  "general": {
+    "designResolution": {
+      "fitWidth": false,
+      "fitHeight": true
+    }
+  }
+}
