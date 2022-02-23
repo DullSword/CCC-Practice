@@ -52,7 +52,6 @@ export class gameManager extends Component {
 
     start() {
         this.UIManager.showMenu('start', startMenuData);
-        this.audioManager.playMusic();
     }
 
     protected initGame() {

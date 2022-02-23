@@ -33,29 +33,27 @@ export class audioManager extends Component {
 
     start() {
         this.audioSource = this.node.addComponent(AudioSource);
-
-        this.audioButton?.on(Button.EventType.CLICK, this.switchAudio, this);
-        director.on('playAudioEffect', this.playEffect, this);
-    }
-
-    public playMusic() {
         this.audioSource.clip = this.backgroundClip;
         this.audioSource.loop = true;
+        this.audioSource.playOnAwake = false;
         this.audioSource.volume = this.backgroundVolume;
-        this.audioSource.play();
+
+        this.audioSource.pause();
+
+        this.audioButton?.on(Button.EventType.CLICK, this.switchAudio, this);
     }
 
     public playEffect(effectClip: AudioClip) {
         this.audioSource.playOneShot(effectClip, 1);
     }
 
-    protected switchAudio() {
+    public switchAudio() {
         const sprite = this.audioButton.getComponent(Sprite)
 
         if (this.audioSource.playing) {
             sprite && (sprite.spriteFrame = this.audioOff);
             director.off('playAudioEffect', this.playEffect, this);
-            this.audioSource.stop();
+            this.audioSource.pause();
         } else {
             sprite && (sprite.spriteFrame = this.audioOn);
             director.on('playAudioEffect', this.playEffect, this);
